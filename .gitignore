@@ -1,0 +1,9 @@
+# GHDL
+*.ghw
+*.vcd
+*.cf
+*.bc*
+src/work/*
+
+# IDE
+.vscode/
