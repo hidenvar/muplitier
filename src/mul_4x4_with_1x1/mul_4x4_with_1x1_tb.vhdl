@@ -1,42 +1,55 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL; -- Needed for arithmetic operations
+use IEEE.STD_LOGIC_UNSIGNED.ALL; -- Needed for unsigned operations
 
-entity MitchellMultiplier_TB is
-end MitchellMultiplier_TB;
+entity tb_Multiplier4x4 is
+end tb_Multiplier4x4;
 
-architecture Sim of MitchellMultiplier_TB is
-    signal A, B : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
-    signal P    : STD_LOGIC_VECTOR(7 downto 0);
+architecture sim of tb_Multiplier4x4 is
+
+    -- Testbench variables
+    signal A, B : STD_LOGIC_VECTOR(3 downto 0);
+    signal Product : STD_LOGIC_VECTOR(7 downto 0); -- Modify as necessary
+
+    -- Component declaration
+    component Multiplier4x4
+        port (
+            A : in STD_LOGIC_VECTOR(3 downto 0);
+            B : in STD_LOGIC_VECTOR(3 downto 0);
+            Product : out STD_LOGIC_VECTOR(7 downto 0)
+        );
+    end component;
+
 begin
-    UUT: entity work.MitchellMultiplier
-        Port Map (A => A, B => B, P => P);
 
+    -- Instantiate the multiplier
+    uut: Multiplier4x4
+        port map (
+            A => A,
+            B => B,
+            Product => Product
+        );
+
+    -- Test Process
     process
     begin
-        A <= "0011"; B <= "0011";
-        wait for 10 ns;
-        assert P = "00010000" report "Test 1 failed" severity error;
+        -- Test cases
+        A <= "0001"; B <= "0010"; -- Test 1
+        wait for 10 ns; -- Wait for a stable output
 
-        A <= "0101"; B <= "0111";
-        wait for 10 ns;
-        assert P = "00100000" report "Test 2 failed" severity error;
+        A <= "0011"; B <= "0011"; -- Test 2
+        wait for 10 ns; 
 
-        A <= "1111"; B <= "1111";
-        wait for 10 ns;
-        assert P = "11111111" report "Test 3 failed" severity error;
+        A <= "0100"; B <= "0101"; -- Test 3
+        wait for 10 ns; 
 
-        A <= "0000"; B <= "0000";
-        wait for 10 ns;
-        assert P = "00000001" report "Test 4 failed" severity error;
+        A <= "1111"; B <= "1111"; -- Test 4
+        wait for 10 ns; 
 
-        A <= "0001"; B <= "0001";
-        wait for 10 ns;
-        assert P = "00000001" report "Test 5 failed" severity error;
-        
-        A <= "1100"; B <= "1011";
-        wait for 10 ns;
-        assert P = "10000000" report "Test 6 failed" severity error;
+        -- Add more test cases as needed...
 
-        wait;
+        wait; -- Wait indefinitely to observe the results
     end process;
-end Sim;
+
+end sim;

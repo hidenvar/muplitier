@@ -42,6 +42,7 @@ begin
         
         X1 <= '1'; X2 <= '1'; X3 <= '1'; X4 <= '1';
         wait for 10 ns;
+        wait;
 
     end process;
 
