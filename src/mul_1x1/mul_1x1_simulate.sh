@@ -14,4 +14,4 @@ ghdl -a --workdir=../work mul_1x1_tb.vhdl && \
 ghdl -e --workdir=../work mul_1x1_tb && \
 ghdl -r --workdir=../work mul_1x1_tb --vcd=mul_1x1.vcd --stop-time=50ns &&\
 
-echo "mul_1x1.ghw is ready"
+echo "mul_1x1.vcd is ready"
