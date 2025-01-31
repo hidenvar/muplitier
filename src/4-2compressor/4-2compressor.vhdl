@@ -1,14 +1,14 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity Approx4to2Compressor is
+entity compressor4_2 is
     Port (
         X1, X2, X3, X4 : in STD_LOGIC; 
         Sum, Carry     : out STD_LOGIC   
     );
-end Approx4to2Compressor;
+end compressor4_2;
 
-architecture Behavioral of Approx4to2Compressor is
+architecture Behavioral of compressor4_2 is
     signal W1, W2, W3, W4, W5, W6 : STD_LOGIC;
 begin
     W1 <= X1 AND X2;
