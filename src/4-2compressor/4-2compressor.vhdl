@@ -21,3 +21,4 @@ begin
     Carry <= W5 OR W6;
     Sum <= W5 XOR W2 XOR W4;
 end Behavioral;
+

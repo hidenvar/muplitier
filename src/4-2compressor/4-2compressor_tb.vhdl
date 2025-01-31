@@ -1,11 +1,11 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity tb_Approx4to2Compressor is
-end tb_Approx4to2Compressor;
+entity compressor4_2_tb is
+end compressor4_2_tb;
 
-architecture Behavioral of tb_Approx4to2Compressor is
-    component Approx4to2Compressor
+architecture Behavioral of compressor4_2_tb is
+    component compressor4_2_tb
         Port (
             X1, X2, X3, X4 : in STD_LOGIC;
             Sum, Carry     : out STD_LOGIC
@@ -47,3 +47,4 @@ begin
     end process;
 
 end Behavioral;
+
