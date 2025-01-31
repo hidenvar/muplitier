@@ -3,23 +3,24 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity Multiplier4x4 is
     Port (
-        A, B      : in  STD_LOGIC_VECTOR(3 downto 0);
-        Product   : out STD_LOGIC_VECTOR(7 downto 0)
+        A, B      : in  std_logic_vector(3 downto 0);
+        Product   : out std_logic_vector(7 downto 0)
     );
 end Multiplier4x4;
 
 architecture Structural of Multiplier4x4 is
-    component Approx4to2Compressor
-        Port (
-            X1, X2, X3, X4 : in STD_LOGIC;
-            Cin            : in STD_LOGIC;
-            Sum, Carry     : out STD_LOGIC
-        );
+
+    component adder_8bit
+        port (
+            a, b : in std_logic_vector(7 downto 0);
+            sum  : out std_logic_vector(7 downto 0);
+            cout : out std_logic
+    );
     end component;
-    
-    signal PP : STD_LOGIC_VECTOR(15 downto 0);
-    
-    signal sum, carry : STD_LOGIC_VECTOR(7 downto 0);
+
+    signal PP : std_logic_vector(15 downto 0);
+    signal PP0,PP1,PP2,PP3 : std_logic_vector(7 downto 0) := (others => '0');
+    signal sum0, sum1, sum2, sum3  : std_logic_vector(7 downto 0);
     
 begin
     -- Generate Partial Products
@@ -43,44 +44,18 @@ begin
     PP(14) <= A(3) and B(2);
     PP(15) <= A(3) and B(3);
 
-    sum(0) <= PP(0);
-    carry(0) <= '0';
+    PP0(3 downto 0) <= (PP(3) & PP(2) & pp(1) & PP(0));
+    
+    PP1(4 downto 1) <= (PP(7) & PP(6) & pp(5) & PP(4));
 
-    sum(1) <= PP(1) xor PP(4);
-    carry(1) <= PP(1) and PP(4);
+    PP2(5 downto 2) <= (PP(11) & PP(10) & pp(9) & PP(8));
 
-    CMP2: Approx4to2Compressor port map(
-        X1 => PP(2), X2 => PP(5), X3 => PP(8), X4 => '0',
-        Cin => '0',
-        Sum => sum(2), Carry => carry(2)
-    );
+    PP3(6 downto 3) <= (PP(15) & PP(14) & pp(13) & PP(12));
 
-    CMP3: Approx4to2Compressor port map(
-        X1 => PP(3), X2 => PP(6), X3 => PP(9), X4 => PP(12),
-        Cin => '0',
-        Sum => sum(3), Carry => carry(3)
-    );
-    CMP4: Approx4to2Compressor port map(
-        X1 => PP(7), X2 => PP(10), X3 => PP(13), X4 => '0',
-        Cin => carry(3),  -- Carry from column 3
-        Sum => sum(4), Carry => carry(4)
-    );
+    FA0 : adder_8bit port map(PP0, PP1, sum0, open);
+    FA1 : adder_8bit port map(sum0, PP2, sum1, open);
+    FA3 : adder_8bit port map(sum1, PP3, sum2, open);
 
-    sum(5) <= PP(11) xor PP(14) xor carry(4);
-    carry(5) <= (PP(11) and PP(14)) or (PP(11) and carry(4)) or (PP(14) and carry(4));
-
-    sum(6) <= PP(15) xor carry(5);
-    carry(6) <= PP(15) and carry(5);
-
-    sum(7) <= carry(6);
-
-    Product(0) <= sum(0);
-    Product(1) <= sum(1); 
-    Product(2) <= sum(2);
-    Product(3) <= sum(3);
-    Product(4) <= sum(4);
-    Product(5) <= sum(5);
-    Product(6) <= sum(6);
-    Product(7) <= sum(7);
-
+    Product <= sum2;
+    
 end Structural;
