@@ -1,17 +1,15 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity tb_Multiplier4x4 is
-end tb_Multiplier4x4;
+entity mul_4x4_with_1x1_tb is
+end mul_4x4_with_1x1_tb;
 
-architecture sim of tb_Multiplier4x4 is
+architecture behavioral of mul_4x4_with_1x1_tb is
 
     signal A, B : STD_LOGIC_VECTOR(3 downto 0);
     signal Product : STD_LOGIC_VECTOR(7 downto 0);
 
-    component Multiplier4x4
+    component mul_4x4_with_1x1
         port (
             A : in STD_LOGIC_VECTOR(3 downto 0);
             B : in STD_LOGIC_VECTOR(3 downto 0);
@@ -21,7 +19,7 @@ architecture sim of tb_Multiplier4x4 is
 
 begin
 
-    uut: Multiplier4x4
+    uut: mul_4x4_with_1x1
         port map (
             A => A,
             B => B,
@@ -70,4 +68,4 @@ begin
         wait;
     end process;
 
-end sim;
+end behavioral;
