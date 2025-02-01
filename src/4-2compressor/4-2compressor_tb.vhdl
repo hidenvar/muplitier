@@ -5,12 +5,6 @@ entity compressor4_2_tb is
 end compressor4_2_tb;
 
 architecture Behavioral of compressor4_2_tb is
-    component compressor4_2_tb
-        Port (
-            X1, X2, X3, X4 : in STD_LOGIC;
-            Sum, Carry     : out STD_LOGIC
-        );
-    end component;
 
     signal X1, X2, X3, X4 : STD_LOGIC;
     signal Sum, Carry      : STD_LOGIC;
