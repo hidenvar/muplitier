@@ -3,10 +3,13 @@
 DIR="../work"
 NAME="shift_left_4"
 
-if [ ! -d "$DIR" ]; then
-    mkdir "$DIR"
-    echo "The 'work' directory has been created in the parent folder!"
+if [ -d "$DIR" ]; then
+    rm -rf "$DIR"
+    echo "The existing 'work' directory has been removed."
 fi
+
+mkdir "$DIR"
+echo "A new 'work' directory has been created in the parent folder!"
 
 OPEN_GTKWAVE="no"
 if [ "$1" == "yes" ]; then
