@@ -16,7 +16,7 @@ architecture Behavioral of compressor4_2_tb is
     signal Sum, Carry      : STD_LOGIC;
 
 begin
-    uut: Approx4to2Compressor
+    uut: entity work.Compressor4_2
         Port Map (
             X1 => X1,
             X2 => X2,
