@@ -1,18 +1,30 @@
 #!/bin/bash
 
 DIR="../work"
+NAME="mul_2x2"
 
 if [ ! -d "$DIR" ]; then
     mkdir "$DIR"
     echo "The 'work' directory has been created in the parent folder!"
 fi
 
-ghdl -s --workdir=../work mul_2x2.vhdl && \
-ghdl -a --workdir=../work mul_2x2.vhdl && \
-ghdl -s --workdir=../work mul_2x2_tb.vhdl && \
-ghdl -a --workdir=../work mul_2x2_tb.vhdl && \
-ghdl -e --workdir=../work mul_2x2_tb && \
+OPEN_GTKWAVE="no"
+if [ "$1" == "yes" ]; then
+    OPEN_GTKWAVE="yes"
+fi
 
-ghdl -r --workdir=../work mul_2x2_tb --vcd=mul_2x2.vcd --stop-time=80ns && \
+ghdl -s --workdir="$DIR" "$NAME.vhdl" && \
+ghdl -a --workdir="$DIR" "$NAME.vhdl" && \
+ghdl -s --workdir="$DIR" "${NAME}_tb.vhdl" && \
+ghdl -a --workdir="$DIR" "${NAME}_tb.vhdl" && \
+ghdl -e --workdir="$DIR" "${NAME}_tb" && \
+ghdl -r --workdir="$DIR" "${NAME}_tb" --vcd="${NAME}.vcd" --stop-time=50ns && \
 
-echo "mul_2x2.vcd is ready"
+echo "${NAME}.vcd is ready"
+
+if [ "$OPEN_GTKWAVE" == "yes" ]; then
+    echo "Opening GTKWave..."
+    gtkwave "${NAME}.vcd"
+else
+    echo "GTKWave will not be opened. To open it, run the script with 'yes' as an argument."
+fi
